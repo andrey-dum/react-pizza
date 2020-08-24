@@ -1,9 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { Categories, SortPopup, PizzaBlock } from '../components';
+import { Categories, SortPopup, PizzaBlock, PizzaLoadingBlock } from '../components';
+
 
 import { setCategory } from '../redux/actions/filters';
-
+import { fetchPizzas } from '../redux/actions/pizzas';
 
 const Items = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 const sortItems = [
@@ -20,6 +21,13 @@ function Home () {
       items: pizzas.items
     };
   });
+  const isLoaded = useSelector(({pizzas}) => pizzas.isLoaded);
+  const {category, sortBy} = useSelector(({filters}) => filters);
+
+
+  React.useEffect(() => {
+    dispatch(fetchPizzas());
+  }, [category]);
 
   const selectCat = (index) => dispatch(setCategory(index));
  
@@ -42,7 +50,11 @@ function Home () {
           </li>
         ))}         */}
         
-        {items.map(obj => <PizzaBlock key={`${obj.name}_${obj.id}`} {...obj} />)}
+        {isLoaded 
+          ? items.map((obj) => <PizzaBlock key={`${obj.name}_${obj.id}`} {...obj} />) 
+          : Array(12)
+            .fill(0)
+            .map((_, index) => <PizzaLoadingBlock key={index} />)}
 
         </div>
       </div>
