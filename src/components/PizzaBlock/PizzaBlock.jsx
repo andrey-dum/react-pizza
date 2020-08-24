@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-export default function PizzaBlock ({obj}) {
+function PizzaBlock ({name, price, imageUrl, types, sizes}) {
     const avaliableTypes = ['тонкая', 'традиционная'];
     const avaliableSizes = [26, 30, 40];
-    const [activeType, setActiveType] = React.useState(obj.types[0]);
-    const [activeSize, setActiveSize] = React.useState(obj.types[0]);
+    const [activeType, setActiveType] = React.useState(types[0]);
+    const [activeSize, setActiveSize] = React.useState(sizes[0]);
 
 
     const onSelectType = (index) => {
@@ -15,17 +16,14 @@ export default function PizzaBlock ({obj}) {
         setActiveSize(index);
     }
 
-       console.log( obj.name, obj.types)
-   
-
     return (
         <div className="pizza-block">
             <img
             className="pizza-block__image"
-            src={obj.imageUrl}
+            src={imageUrl}
             alt="Pizza"
             />
-            <h4 className="pizza-block__title">{obj.name}</h4>
+            <h4 className="pizza-block__title">{name}</h4>
             <div className="pizza-block__selector">
             <ul>
                 {avaliableTypes.map((type, index) => (
@@ -34,7 +32,7 @@ export default function PizzaBlock ({obj}) {
                         onClick={()=>onSelectType(index)}
                         className={classNames({
                             active: activeType === index,
-                            disabled: !obj.types.includes(index)
+                            disabled: !types.includes(index)
                         })}
                         >
                         {type}</li>
@@ -49,16 +47,16 @@ export default function PizzaBlock ({obj}) {
                         onClick={()=>onSelectSize(index)}
                         className={classNames({
                             active: activeSize === index,
-                            disabled: !obj.sizes.includes(size)
+                            disabled: !sizes.includes(size)
                         })}
                         >
-                        {size}</li>
+                        {size} см.</li>
                     )
                 )}
             </ul>
             </div>
             <div className="pizza-block__bottom">
-            <div className="pizza-block__price">от {obj.price} ₽</div>
+            <div className="pizza-block__price">от {price} ₽</div>
             <div className="button button--outline button--add">
                 <svg
                 width="12"
@@ -79,3 +77,19 @@ export default function PizzaBlock ({obj}) {
             </div> 
     )
 }
+
+
+PizzaBlock.propTypes = {
+   name: PropTypes.string.isRequired,
+   price: PropTypes.number.isRequired,
+   imageUrl: PropTypes.string.isRequired,
+   types: PropTypes.arrayOf(PropTypes.number).isRequired,
+   sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
+PizzaBlock.defaultProps = {
+    types: [],
+    sizes: [],
+}
+
+export default PizzaBlock;
