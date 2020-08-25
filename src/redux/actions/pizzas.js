@@ -6,11 +6,18 @@ export const setLoaded = (val) => ({
 });
 
 
-export const fetchPizzas = () => (dispatch) => {
+export const fetchPizzas = (category, sortBy) => (dispatch) => {
     dispatch(setLoaded(false));
-    axios.get('http://localhost:3001/pizzas').then(({data}) => {
+
+    axios.get(`http://localhost:3001/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${sortBy}&_order=desc`).then(({data}) => {
           dispatch(setPizzas(data));
       })
+
+    //   if (category === null) {
+    //     axios.get(`http://localhost:3001/pizzas?_sort=${sortBy}&_order=desc`).then(({data}) => {
+    //         dispatch(setPizzas(data));
+    //     })
+    //   }
 };
 
 export const setPizzas = (items) => ({
