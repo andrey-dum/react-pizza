@@ -2,12 +2,22 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
+import { useSelector } from 'react-redux';
+
+
 const CartButton = ({сlassName}) => {
+  const { totalPrice, totalCount } = useSelector(({ cart }) => {
+    return {
+      totalPrice: cart.totalPrice,
+      totalCount: cart.totalCount
+    }
+  });
+
     return (
         <div className="header__cart">
              <Link to="/cart"
               className={classNames('button', сlassName)}>
-                <span>520 ₽</span>
+                <span>{totalPrice} ₽</span>
                 <div className="button__delimiter"></div>
                 <svg
                   width="18"
@@ -38,7 +48,7 @@ const CartButton = ({сlassName}) => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>3</span>
+              <span>{totalCount}</span>
             </Link>
           </div>
     );

@@ -38,7 +38,7 @@ function SortPopup ({items, activeSortType, onClickSortType }) {
 React.useEffect(() => {
     document.body.addEventListener('click', handleOutsideClick);
 }, [])
-//юзЕфект меняет выполняет действие только когда меняется свойство  в масиве
+
     return (
         <div  ref={sortRef} className="sort">
               <div className="sort__label">

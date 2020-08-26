@@ -2,17 +2,17 @@ import React from 'react';
 // import axios from 'axios';
 import {Route} from 'react-router-dom';
 //import {connect} from 'react-redux';
-import { useDispatch, useSelector } from 'react-redux';
+//import { useDispatch, useSelector } from 'react-redux';
 
 
 import { Header } from './components';
 import {Home, Cart} from './pages';
-import { fetchPizzas } from './redux/actions/pizzas';
+//import { fetchPizzas } from './redux/actions/pizzas';
 
 
 
 function App() {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   
   // React.useEffect(() => {
   //   dispatch(fetchPizzas());
