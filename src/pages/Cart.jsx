@@ -1,14 +1,43 @@
 import React from "react";
 //import { Categories, SortPopup } from '../components';
+import CartItem from '../components/CartItem';
+import { useSelector, useDispatch } from 'react-redux'
+
+import { clearCart, removeCartItem } from '../redux/actions/cart';
+import {Link} from 'react-router-dom';
+
 import emptyCartImg from '../assets/img/empty-cart.png';
 
 
 
 function Cart () {
-    return (
+  const dispatch = useDispatch();
 
+  const { totalPrice, totalCount, items } = useSelector(({cart}) => cart);
+
+  const pizzasGroup = Object.keys(items).map(key => {
+    return items[key].items[0];
+  })
+  
+  const onClearCart = () => {
+    if (window.confirm('Очистить корзину?')) {
+      dispatch(clearCart())
+    }
+  };
+
+  const onRemoveItem = (id) => {
+    if (window.confirm('Удалить пиццу?')) {
+      dispatch(removeCartItem(id))
+    }
+  };
+  
+  
+
+//Object.keys(items).length !== 0
+    return (
       <div className="content">
         <div className="container container--cart">
+          { totalCount ? (
           <div className="cart">
             <div className="cart__top">
               <h2 className="content__title"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,68 +54,41 @@ function Cart () {
               <path d="M11.6666 9.16667V14.1667" stroke="#B6B6B6" strokeWidth="1.2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
 
-                <span>Очистить корзину</span>
+                <span onClick={onClearCart}>Очистить корзину</span>
               </div>
             </div>
             <div className="content__items">
-            <div className="cart__item">
-            <div className="cart__item-img">
-              <img
-                className="pizza-block__image"
-                src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                alt="Pizza"
-              />
-            </div>
-            <div className="cart__item-info">
-              <h3>Сырный цыпленок</h3>
-              <p>тонкое тесто, 26 см.</p>
-            </div>
-            <div className="cart__item-count">
-              <div className="button button--outline button--circle cart__item-count-minus">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z" fill="#EB5A1E"/>
-          <path d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z" fill="#EB5A1E"/>
-          </svg>
-
-              </div>
-              <b>2</b>
-              <div className="button button--outline button--circle cart__item-count-plus">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z" fill="#EB5A1E"/>
-          <path d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z" fill="#EB5A1E"/>
-          </svg>
-
-              </div>
-            </div>
-            <div className="cart__item-price">
-              <b>770 ₽</b>
-            </div>
-            <div className="cart__item-remove">
-              <div className="button button--outline button--circle">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z" fill="#EB5A1E"/>
-          <path d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z" fill="#EB5A1E"/>
-          </svg>
-
-              </div>
-            </div>
-          </div>
-
+            
+            {
+              pizzasGroup.map(obj => (
+              <CartItem 
+                id={obj.id}
+                key={obj.id}
+                name={obj.name} 
+                type={obj.type} 
+                size={obj.size} 
+                totalPrice={items[obj.id].totalPrice} 
+                totalCount={items[obj.id].items.length}
+                onRemove={onRemoveItem}
+                
+                />
+              ))
+            }
 
 
             </div>
             <div className="cart__bottom">
               <div className="cart__bottom-details">
-                <span> Всего пицц: <b>3 шт.</b> </span>
-                <span> Сумма заказа: <b>900 ₽</b> </span>
+                <span> Всего пицц: <b>{totalCount} шт.</b> </span>
+                <span> Сумма заказа: <b>{totalPrice} ₽</b> </span>
               </div>
               <div className="cart__bottom-buttons">
                 <a href="/" className="button button--outline button--add go-back-btn">
                   <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M7 13L1 6.93015L6.86175 1" stroke="#D3D3D3" strokeWidth="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                    <path d="M7 13L1 6.93015L6.86175 1" stroke="#D3D3D3" strokeWidth="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
 
-                  <span>Вернуться назад</span>
+                  <Link to="/"> <span>Вернуться назад</span></Link>
                 </a>
                 <div className="button pay-btn">
                   <span>Оплатить сейчас</span>
@@ -94,8 +96,7 @@ function Cart () {
               </div>
             </div>
           </div>
-
-
+          ) : (
           <div className="cart cart--empty">
             <h2>Корзина пустая <icon>😕</icon></h2>
             <p>
@@ -104,10 +105,11 @@ function Cart () {
             </p>
    
             <img src={emptyCartImg} alt="Empty cart" />
-            <a href="/" className="button button--black">
-              <span>Вернуться назад</span>
-            </a>
+            <Link to="/" className="button button--black">
+            <span>Вернуться назад</span>
+            </Link>
           </div>
+          )}
 
         </div>
       </div>
