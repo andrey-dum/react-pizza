@@ -3,7 +3,7 @@ import React from "react";
 import CartItem from '../components/CartItem';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { clearCart, removeCartItem } from '../redux/actions/cart';
+import { clearCart, removeCartItem, plusCartItem, minusCartItem } from '../redux/actions/cart';
 import {Link} from 'react-router-dom';
 
 import emptyCartImg from '../assets/img/empty-cart.png';
@@ -30,6 +30,18 @@ function Cart () {
       dispatch(removeCartItem(id))
     }
   };
+
+  const onPlusItem = (id) => {
+      dispatch(plusCartItem(id))
+  };
+
+  const onMinusItem = (id) => {
+    dispatch(minusCartItem(id))
+};
+
+const onClickOrder = () => {
+  console.log('ВАШ ЗАКАЗ', items)
+}
   
   
 
@@ -70,7 +82,8 @@ function Cart () {
                 totalPrice={items[obj.id].totalPrice} 
                 totalCount={items[obj.id].items.length}
                 onRemove={onRemoveItem}
-                
+                onPlus={onPlusItem}
+                onMinus={onMinusItem}
                 />
               ))
             }
@@ -90,7 +103,7 @@ function Cart () {
 
                   <Link to="/"> <span>Вернуться назад</span></Link>
                 </a>
-                <div className="button pay-btn">
+                <div onClick={onClickOrder} className="button pay-btn">
                   <span>Оплатить сейчас</span>
                 </div>
               </div>
